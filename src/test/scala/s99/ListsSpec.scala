@@ -7,10 +7,12 @@ class ListsSpec extends Specification with ListsSolutions {
 
   "P01 Find the last element of a list" >> {
     last(List(1, 1, 2, 3, 5, 8)) === 8
+    last(List(8)) === 8
   }
 
   "P02 Find the last but one element of a list" >> {
     penultimate(List(1, 1, 2, 3, 5, 8)) === 5
+    penultimate(List(5, 8)) === 5
   }
 
   "P03 Find the nth element of a list. By convention, the first element in the list is element 0" >> {
@@ -22,6 +24,7 @@ class ListsSpec extends Specification with ListsSolutions {
   }
 
   "P05 Reverse a list" >> {
+    reverse(List(1)) === List(1)
     reverse(List(1, 1, 2, 3, 5, 8)) === List(8, 5, 3, 2, 1, 1)
   }
 
