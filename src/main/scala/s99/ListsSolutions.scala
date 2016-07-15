@@ -54,9 +54,26 @@ trait ListsSolutions {
     case head :: tail => head :: compress(tail)
   }
 
-  def pack[T](list: List[T]): List[List[T]] = ???
-  def encode[T](list: List[T]): List[(Int, T)] = ???
-  def encodeModified[T](list: List[T]): List[Any] = ???
+  def pack[T](list: List[T]): List[List[T]] = {
+    def packAux(list: List[T], aux: List[T]): List[List[T]] = (list, aux) match {
+      case (Nil, Nil) => Nil
+      case (Nil, list) => List(list)
+      case (head :: tail, Nil) => packAux(tail, List(head))
+      case (h1 :: t1, list) if h1 == list.head => packAux(t1, h1 :: list)
+      case (h1 :: t1, list) => list :: packAux(h1 :: t1, Nil)
+    }
+    packAux(list, Nil)
+  }
+
+  def encode[T](list: List[T]): List[(Int, T)] = {
+    pack(list).map { elem => (elem.size, elem.head) }
+  }
+
+  def encodeModified[T](list: List[T]): List[Any] = encode(list) map {
+    case (1, elem) => elem
+    case tuple => tuple
+  }
+
   def decode[T](list: List[(Int, T)]): List[T] = ???
   def encodeDirect[T](list: List[T]): List[(Int, T)] = ???
   def duplicate[T](list: List[T]): List[T] = ???
