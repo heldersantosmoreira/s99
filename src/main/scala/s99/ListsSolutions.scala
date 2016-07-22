@@ -74,13 +74,67 @@ trait ListsSolutions {
     case tuple => tuple
   }
 
-  def decode[T](list: List[(Int, T)]): List[T] = ???
+  // full List API
+  // def decode[T](list: List[(Int, T)]): List[T] = {
+  //   list.flatMap(el => List.fill(el._1)(el._2))
+  // }
+
+  // full recursion
+  def decode[T](list: List[(Int, T)]): List[T] = list match {
+    case Nil => Nil
+    case (1, el) :: tail => el :: decode(tail)
+    case (n, el) :: tail => el :: decode((n-1, el) :: tail)
+  }
+
   def encodeDirect[T](list: List[T]): List[(Int, T)] = ???
-  def duplicate[T](list: List[T]): List[T] = ???
-  def duplicateN[T](n: Int, list: List[T]): List[T] = ???
-  def drop[T](n: Int, list: List[T]): List[T] = ???
-  def split[T](n: Int, list: List[T]): (List[T], List[T]) = ???
-  def slice[T](i: Int, j: Int, list: List[T]): List[T] = ???
+
+  def duplicate[T](list: List[T]): List[T] = list match {
+    case Nil => Nil
+    case head :: tail => head :: head :: duplicate(tail)
+  }
+
+  // full List API
+  // def duplicateN[T](n: Int, list: List[T]): List[T] = {
+  //   list.flatMap(el => List.fill(n)(el))
+  // }
+
+  // full recursion
+  def duplicateN[T](n: Int, list: List[T]): List[T] = {
+    def duplicateNAux[T](n: Int, el: T, out: List[T]): List[T] = n match {
+      case 0 => out
+      case _ => duplicateNAux(n-1, el, el :: out)
+    }
+
+    list match {
+      case Nil => Nil
+      case head :: tail => duplicateNAux(n, head, List()) ++ duplicateN(n, tail)
+    }
+  }
+
+  def drop[T](n: Int, list: List[T]): List[T] = {
+    def dropAux(k: Int, list: List[T], out: List[T]): List[T] = list match {
+      case Nil => out
+      case head :: tail if k == 1 => dropAux(n, tail, out)
+      case head :: tail => dropAux(k-1, tail, out ++ List(head))
+    }
+
+    dropAux(n, list, List())
+  }
+
+  def split[T](n: Int, list: List[T]): (List[T], List[T]) = {
+    def splitAux(k: Int, in: List[T], out: List[T]): (List[T], List[T]) = k match {
+      case 0 => (out, in)
+      case k => splitAux(k-1, in.tail, out ++ List(in.head))
+    }
+
+    splitAux(n, list, List())
+  }
+
+  def slice[T](i: Int, j: Int, list: List[T]): List[T] = {
+    if (i > 0) slice(i-1, j-1, list.tail)
+    else if (j > 0) list.head :: slice(0, j-1, list.tail)
+    else Nil
+  }
   def rotate[T](n: Int, list: List[T]): List[T] = ???
   def removeAt[T](i: Int, list: List[T]): (List[T], T) = ???
   def insertAt[T](t: T, i: Int, list: List[T]): List[T] = ???
