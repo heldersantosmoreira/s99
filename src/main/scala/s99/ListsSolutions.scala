@@ -135,9 +135,37 @@ trait ListsSolutions {
     else if (j > 0) list.head :: slice(0, j-1, list.tail)
     else Nil
   }
-  def rotate[T](n: Int, list: List[T]): List[T] = ???
-  def removeAt[T](i: Int, list: List[T]): (List[T], T) = ???
-  def insertAt[T](t: T, i: Int, list: List[T]): List[T] = ???
+
+  def rotate[T](n: Int, list: List[T]): List[T] = {
+    if (list.isEmpty) list
+    else if (n > 0) rotate(n-1, list.tail ++ List(list.head))
+    else if (n < 0) rotate(n+1, list.last :: (list.dropRight(1)))
+    else list
+  }
+
+  // def removeAt[T](i: Int, list: List[T]): (List[T], T) = {
+  //   def removeAtAux(i: Int, list: List[T], out: List[T]): (List[T], T) = {
+  //     if (i > 0) removeAtAux(i-1, list.tail, out ++ List(list.head))
+  //     else (out ++ list.tail, list.head)
+  //   }
+
+  //   removeAtAux(i, list, List())
+  // }
+
+  // another solution with no aux method
+  def removeAt[T](i: Int, list: List[T]): (List[T], T) = {
+    if (i > 0) {
+      val (result, elem) = removeAt(i-1, list.tail)
+      (list.head :: result, elem)
+    }
+    else (list.tail, list.head)
+  }
+
+  def insertAt[T](t: T, i: Int, list: List[T]): List[T] = {
+    if (i > 0) list.head :: insertAt(t, i-1, list.tail)
+    else t :: list
+  }
+
   def range[T](i: Int, j: Int): List[Int] = ???
   def randomSelect[T](n: Int, list: List[T]): List[T] = ???
   def lotto[T](i: Int, j: Int): List[Int] = ???
