@@ -166,7 +166,11 @@ trait ListsSolutions {
     else t :: list
   }
 
-  def range[T](i: Int, j: Int): List[Int] = ???
+  def range[T](i: Int, j: Int): List[Int] = {
+    if (i > j) Nil
+    else i :: range(i+1, j)
+  }
+
   def randomSelect[T](n: Int, list: List[T]): List[T] = ???
   def lotto[T](i: Int, j: Int): List[Int] = ???
   def randomPermute[T](list: List[T]): List[T] = ???
