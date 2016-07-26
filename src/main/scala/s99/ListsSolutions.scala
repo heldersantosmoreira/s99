@@ -171,10 +171,30 @@ trait ListsSolutions {
     else i :: range(i+1, j)
   }
 
-  def randomSelect[T](n: Int, list: List[T]): List[T] = ???
-  def lotto[T](i: Int, j: Int): List[Int] = ???
-  def randomPermute[T](list: List[T]): List[T] = ???
-  def combinations[T](n: Int, list: List[T]): List[List[T]] = ???
+  import scala.util.Random
+
+  def randomSelect[T](n: Int, list: List[T]): List[T] = {
+    if (n > 0) {
+      val (rem, elem) = removeAt(Random.nextInt(list.length), list)
+      elem :: randomSelect(n-1, rem)
+    } else Nil
+  }
+
+  def lotto[T](i: Int, j: Int): List[Int] = {
+    randomSelect(i, range(1, j))
+  }
+
+  def randomPermute[T](list: List[T]): List[T] = randomSelect(list.length, list)
+
+  // cool stuff!
+  def combinations[T](n: Int, list: List[T]): List[List[T]] = {
+    if (n > 0) list match {
+      case Nil => Nil
+      case head :: tail => combinations(n, tail) ++ (for (combination <- combinations(n-1, tail)) yield head :: combination)
+    }
+    else List(Nil)
+  }
+
   def group3[T](list: List[T]): List[List[List[T]]] = ???
   def groups[T](ns: List[Int], list: List[T]): List[List[List[T]]] = ???
   def lsort[T](list: List[List[T]]): List[List[T]] = ???
