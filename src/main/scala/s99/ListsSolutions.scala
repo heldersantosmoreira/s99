@@ -197,6 +197,39 @@ trait ListsSolutions {
 
   def group3[T](list: List[T]): List[List[List[T]]] = ???
   def groups[T](ns: List[Int], list: List[T]): List[List[List[T]]] = ???
-  def lsort[T](list: List[List[T]]): List[List[T]] = ???
+
+  // using bubble sort
+  def lsort[T](list: List[List[T]]): List[List[T]] = {
+
+    // a kind of bubble sort
+    // def bubbleSort(source: List[List[T]], result: List[List[T]]) = {
+    //   if (source.isEmpty) result
+    //   else bubble(source, Nil, result)
+    // }
+
+    // def bubble(source: List[List[T]], tempList: List[List[T]], result: List[List[T]]): List[List[T]] = source match {
+    //   case h1 :: h2 :: t =>
+    //     if (h1.length > h2.length) bubble(h1 :: t, h2 :: tempList, result)
+    //     else bubble(h2 :: t, h1 :: tempList, result)
+    //   case h1 :: t => bubbleSort(tempList, h1 :: result)
+    // }
+
+    // bubbleSort(list, Nil)
+
+    // using quicksort
+    // picks head as pivot instead of middle element
+    def quicksort(list: List[List[T]]): List[List[T]] = {
+      list match {
+        case Nil => List()
+        case head :: tail =>
+          quicksort(for(x <- tail if x.length < head.length) yield x) :::
+          List(head) :::
+          quicksort(for(x <- tail if x.length >= head.length) yield x)
+      }
+    }
+
+    quicksort(list)
+  }
+
   def lsortFreq[T](list: List[List[T]]): List[List[T]] = ???
 }
