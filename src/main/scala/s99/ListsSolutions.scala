@@ -198,7 +198,6 @@ trait ListsSolutions {
   def group3[T](list: List[T]): List[List[List[T]]] = ???
   def groups[T](ns: List[Int], list: List[T]): List[List[List[T]]] = ???
 
-  // using bubble sort
   def lsort[T](list: List[List[T]]): List[List[T]] = {
 
     // a kind of bubble sort
@@ -217,7 +216,7 @@ trait ListsSolutions {
     // bubbleSort(list, Nil)
 
     // using quicksort
-    // picks head as pivot instead of middle element
+    // picks head as pivot instead of middle element, so could be improved?
     def quicksort(list: List[List[T]]): List[List[T]] = {
       list match {
         case Nil => List()
@@ -231,5 +230,10 @@ trait ListsSolutions {
     quicksort(list)
   }
 
-  def lsortFreq[T](list: List[List[T]]): List[List[T]] = ???
+  // just too much work to avoid the List API
+  // maybe in the future if I feel like it
+  // TODO
+  def lsortFreq[T](list: List[List[T]]): List[List[T]] = {
+    list.groupBy(_.length).values.toList.sortBy(_.length).flatten
+  }
 }
