@@ -86,7 +86,16 @@ trait ListsSolutions {
     case (n, el) :: tail => el :: decode((n-1, el) :: tail)
   }
 
-  def encodeDirect[T](list: List[T]): List[(Int, T)] = ???
+  def encodeDirect[T](list: List[T]): List[(Int, T)] = {
+    def encodeDirectAux(list: List[T], aux: List[(Int, T)]): List[(Int, T)] = (list, aux) match {
+      case (Nil, Nil) => Nil
+      case (Nil, aux) => aux
+      case (head :: tail, Nil) => encodeDirectAux(tail, List((1, head)))
+      case (h1 :: t1, h2 :: t2) if h1 == h2._2 => encodeDirectAux(t1, (h2._1 + 1, h2._2) :: t2)
+      case (h1 :: t1, aux) => aux ::: encodeDirectAux(h1 :: t1, Nil)
+    }
+    encodeDirectAux(list, Nil)
+  }
 
   def duplicate[T](list: List[T]): List[T] = list match {
     case Nil => Nil
