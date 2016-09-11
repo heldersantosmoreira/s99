@@ -204,7 +204,16 @@ trait ListsSolutions {
     else List(Nil)
   }
 
-  def group3[T](list: List[T]): List[List[List[T]]] = ???
+  // the power of for comprehensions!
+  def group3[T](list: List[T]): List[List[List[T]]] = {
+    for {
+      a <- combinations(2, list)
+      noA = list diff a
+      b <- combinations(3, noA)
+      remaining = noA diff b
+    } yield List(a, b, remaining)
+  }
+
   def groups[T](ns: List[Int], list: List[T]): List[List[List[T]]] = ???
 
   def lsort[T](list: List[List[T]]): List[List[T]] = {
