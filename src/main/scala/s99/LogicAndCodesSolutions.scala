@@ -35,7 +35,7 @@ trait LogicAndCodesSolutions { outer =>
     if (n == 1) List("0", "1")
     else {
       val previous = gray(n-1)
-      previous.map(x => "0" + x) ++ previous.reverse.map(x => "1" + x)
+      previous.map("0" + _) ++ previous.reverse.map("1" + _)
     }
   }
 
