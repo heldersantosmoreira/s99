@@ -15,7 +15,7 @@ trait ArithmeticSolutions {
     }
 
     def isCoprimeTo(m: Int): Boolean = gcd(n, m) == 1
-    def totient: Int = ???
+    def totient: Int = (1 until n+1).count(_.isCoprimeTo(n))
     def primeFactors: List[Int] = ???
     def primeFactorMultiplicity: List[(Int, Int)] = ???
     def primeFactorMultiplicityMap: Map[Int, Int] = ???
