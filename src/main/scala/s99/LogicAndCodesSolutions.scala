@@ -31,6 +31,13 @@ trait LogicAndCodesSolutions { outer =>
     }).mkString("\n")
   }
 
-  def gray(n: Int): List[String] = ???
+  def gray(n: Int): List[String] = {
+    if (n == 1) List("0", "1")
+    else {
+      val previous = gray(n-1)
+      previous.map(x => "0" + x) ++ previous.reverse.map(x => "1" + x)
+    }
+  }
+
   def huffman(list: List[(String,  Int)]): List[(String, String)] = ???
 }
