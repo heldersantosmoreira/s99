@@ -39,7 +39,8 @@ trait ArithmeticSolutions {
     def improvedTotient: Int =
       n.primeFactorMultiplicity.foldLeft(1) { case (acc, n) => acc * (n._1 - 1) * Math.pow(n._1, n._2 - 1).toInt }
 
-    def goldbach: (Int, Int) = ???
+    def goldbach: (Int, Int) =
+      listPrimesinRange(2 to n).find { i => (n - i).isPrime }.map(i => (i, n - i)).get
   }
 
   def gcd(m: Int, n: Int): Int = {
@@ -48,8 +49,21 @@ trait ArithmeticSolutions {
   }
 
   def listPrimesinRange(r: Range): List[Int] = r.filter(_.isPrime).toList
-  def printGoldbachList(r: Range): List[String] = ???
-  def printGoldbachListLimited(r: Range, limit: Int): List[String] = ???
+
+  def printGoldbachList(r: Range): List[String] = r
+    .filter(_ % 2 == 0)
+    .map { n =>
+      val (a, b) = n.goldbach
+      s"${n} = ${a} + ${b}"
+    }.toList
+
+  def printGoldbachListLimited(r: Range, limit: Int): List[String] = r.foldRight(List[String]()) { case (n, acc) =>
+    if (n % 2 == 0) {
+      val (a, b) = n.goldbach
+      if (a > limit) s"${n} = ${a} + ${b}" :: acc
+      else acc
+    } else acc
+  }
 
   // Optional but possibly useful exercise: not in original s-99 problems
   def primes: Stream[Int] = ???
