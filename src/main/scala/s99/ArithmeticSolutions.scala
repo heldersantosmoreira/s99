@@ -16,9 +16,25 @@ trait ArithmeticSolutions {
 
     def isCoprimeTo(m: Int): Boolean = gcd(n, m) == 1
     def totient: Int = (1 until n+1).count(_.isCoprimeTo(n))
-    def primeFactors: List[Int] = ???
-    def primeFactorMultiplicity: List[(Int, Int)] = ???
-    def primeFactorMultiplicityMap: Map[Int, Int] = ???
+
+    def primeFactors: List[Int] = {
+      if (n.isPrime) List(n)
+      else {
+        // find the first prime that divides the number
+        (2 until n-1 view) find (x => x.isPrime && (n % x == 0)) match {
+          case None => Nil
+          case Some(x) => List(x) ::: (n / x).primeFactors
+        }
+      }
+    }
+
+    // let's reuse the #encode method we've done in the ListSolutions
+    def primeFactorMultiplicity: List[(Int, Int)] =
+      new ListsSolutions{}
+      .encode(n.primeFactors)
+      .map { case (k, v) => (v, k) }
+
+    def primeFactorMultiplicityMap: Map[Int, Int] = n.primeFactorMultiplicity.toMap
     def improvedTotient: Int = ???
     def listPrimesinRange(r: Range): List[Int] = ???
     def goldbach: (Int, Int) = ???
