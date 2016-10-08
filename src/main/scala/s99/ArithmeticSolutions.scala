@@ -35,7 +35,10 @@ trait ArithmeticSolutions {
       .map { case (k, v) => (v, k) }
 
     def primeFactorMultiplicityMap: Map[Int, Int] = n.primeFactorMultiplicity.toMap
-    def improvedTotient: Int = ???
+
+    def improvedTotient: Int =
+      n.primeFactorMultiplicity.foldLeft(1) { case (result, current) => result * (current._1 - 1) * Math.pow(current._1, current._2 - 1).toInt }
+
     def listPrimesinRange(r: Range): List[Int] = ???
     def goldbach: (Int, Int) = ???
   }
