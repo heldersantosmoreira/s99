@@ -37,7 +37,7 @@ trait ArithmeticSolutions {
     def primeFactorMultiplicityMap: Map[Int, Int] = n.primeFactorMultiplicity.toMap
 
     def improvedTotient: Int =
-      n.primeFactorMultiplicity.foldLeft(1) { case (result, current) => result * (current._1 - 1) * Math.pow(current._1, current._2 - 1).toInt }
+      n.primeFactorMultiplicity.foldLeft(1) { case (acc, n) => acc * (n._1 - 1) * Math.pow(n._1, n._2 - 1).toInt }
 
     def goldbach: (Int, Int) = ???
   }
